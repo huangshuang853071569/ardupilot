@@ -975,6 +975,9 @@ private:
 #endif
 #if MODE_GUIDED_ENABLED == ENABLED
     ModeGuided mode_guided;
+
+    ModeDrawStar mode_DrawStar;             //¶þ¿ªÌí¼Ó
+
 #endif
     ModeLand mode_land;
 #if MODE_LOITER_ENABLED == ENABLED

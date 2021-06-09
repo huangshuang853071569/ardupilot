@@ -834,6 +834,38 @@ private:
 
 };
 
+class ModeDrawStar : public Mode {
+
+public:
+    // inherit constructor
+    using Copter::Mode::Mode;
+
+    bool init(bool ignore_checks) override;
+    void run() override;
+
+    bool requires_GPS() const override { return true; }
+    bool has_manual_throttle() const override { return false; }
+    bool allows_arming(bool from_gcs) const override { return from_gcs; }
+    bool is_autopilot() const override { return true; }
+    bool in_guided_mode() const { return true; }
+    bool has_user_takeoff(bool must_navigate) const override { return false; }
+
+protected:
+
+    const char *name() const override { return "DRAWSTAR"; }
+    const char *name4() const override { return "DRAWSTAR"; }
+
+private:
+
+    Vector3f path[10];          //二开添加：用于保存五角星航点，这里多定义了几个，以备扩展需要
+    int path_num;               //而开添加：用于保存当前航点
+
+    void generate_path();       //二开添加：五角星航点生成函数
+    void pos_control_start();
+    void pos_control_run();
+    void vel_control_run();
+
+};
 
 class ModeGuidedNoGPS : public ModeGuided {
 

@@ -155,6 +155,10 @@ Copter::Mode *Copter::mode_from_mode_num(const uint8_t mode)
             break;
 #endif
 
+        case DRAWSTAR:                  //二开添加：五角星航线模式
+            ret = &mode_DrawStar;       //二开添加
+            break;                      //二开添加
+
         default:
             break;
     }
