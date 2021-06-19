@@ -12,8 +12,8 @@ bool Copter::ModeDrawStar::init(bool ignore_checks)
         // initialise yaw
         auto_yaw.set_mode_to_default(false);
 
-        path_num = 0;               //¶þ¿ªÌí¼Ó£ºµ±Ç°º½µãÇå0
-        generate_path();            //¶þ¿ªÌí¼Ó£ºÉú³ÉÎå½ÇÐÇº½µã
+        path_num = 0;               //äºŒå¼€æ·»åŠ ï¼šå½“å‰èˆªç‚¹å·æ¸…0
+        generate_path();            //äºŒå¼€æ·»åŠ ï¼šç”Ÿæˆäº”è§’æ˜Ÿèˆªç‚¹
 
         // start in position control mode
         pos_control_start();
@@ -23,19 +23,19 @@ bool Copter::ModeDrawStar::init(bool ignore_checks)
     }
 }
 
-//¶þ¿ªÌí¼Ó£ºÉú³ÉÎå½ÇÐÇº½µã×ø±ê
-//º½Ïß×ø±ê¶¨Òå£º»úÍ··½ÏòÎªXÖáÕýÏò£¬ÓÒ²àÎªYÖáÕýÏò£¬´¹Ö±³¯ÏÂÎªZÖáÕýÏò
+//äºŒå¼€æ·»åŠ ï¼šç”Ÿæˆäº”è§’æ˜Ÿèˆªçº¿çš„èˆªç‚¹
+//èˆªçº¿åæ ‡å®šä¹‰ï¼šXè½´æ­£å‘æŒ‡å‘æ­£åŒ—ï¼ŒYè½´æ­£å‘æŒ‡å‘æ­£ä¸œï¼ŒZè½´æ­£å‘åž‚ç›´å‘ä¸‹
 void Copter::ModeDrawStar::generate_path()
 {
-    float radius_cm = 1000;     //Îå½ÇÐÇº½µãÍâ½ÓÔ²°ë¾¶£º10Ã×
+    float radius_cm = g2.star_radius_cm;     //äºŒå¼€æ·»åŠ ï¼šäº”è§’æ˜Ÿèˆªçº¿å¤–æŽ¥åœ†åŠå¾„ï¼Œåœ¨å‚æ•°è¡¨ä¸­å®šä¹‰ï¼Œå‚æ•°åç§°STAR_R_CM
 
-    wp_nav->get_wp_stopping_point(path[0]);                 //½«µ±Ç°Î»ÖÃ×ø±ê´æ·ÅÔÚµÚ0º½µã£¬×÷ÎªÎªÎå½ÇÐÇµÄÖÐÐÄ
-    path[1] = path[0] + Vector3f(1.0f, 0, 0) * radius_cm;   //µÚ1º½µã×ø±ê=µÚ0º½µã+Æ«ÒÆÖµ¡£vector3f(1.0f,0,0)Îªµ¥Î»ÏòÁ¿¡£
-    path[2] = path[0] + Vector3f(-cosf(radians(36.0f)), -sinf(radians(36.0f)), 0) * radius_cm;  //radians()º¯ÊýÎª½Ç¶ÈÖµ×ª»¡¶ÈÖµ
+    wp_nav->get_wp_stopping_point(path[0]);                 //å°†å½“å‰çš„ä½ç½®åæ ‡å­˜æ”¾åœ¨ç¬¬0èˆªç‚¹ï¼Œä½œä¸ºäº”è§’æ˜Ÿä¸­å¿ƒ
+    path[1] = path[0] + Vector3f(1.0f, 0, 0) * radius_cm;   //ç¬¬1å·èˆªç‚¹=ç¬¬0å·èˆªç‚¹+åç§»å€¼ã€‚vector3f(1.0f,0,0)ä¸ºå•ä½å‘é‡
+    path[2] = path[0] + Vector3f(-cosf(radians(36.0f)), -sinf(radians(36.0f)), 0) * radius_cm;  //radians()å‡½æ•°ä¸ºè§’åº¦å€¼è½¬å¼§åº¦åˆ¶
     path[3] = path[0] + Vector3f(sinf(radians(18.0f)), cosf(radians(18.0f)), 0) * radius_cm;
     path[4] = path[0] + Vector3f(sinf(radians(18.0f)), -cosf(radians(18.0f)), 0) * radius_cm;
     path[5] = path[0] + Vector3f(-cosf(radians(36.0f)), sinf(radians(36.0f)), 0) * radius_cm;
-    path[6] = path[1];                                      //µÚ6¸öº½µã»Øµ½µÚ1µã
+    path[6] = path[1];                                      //æœ€åŽå›žåˆ°ç¬¬1ä¸ªèˆªç‚¹
 
 }
 
@@ -51,7 +51,7 @@ void Copter::ModeDrawStar::pos_control_start()
 
 
     // no need to check return status because terrain data is not used
-    wp_nav->set_wp_destination(path[0], false); //¶þ¿ªÐÞ¸Ä£ºÄ¿±êº½µã²»ÔÙÊ¹ÓÃÍ£Ö¹µã£¬¶øÊÇµÚ0¸öº½µã
+    wp_nav->set_wp_destination(path[0], false); //äºŒå¼€ä¿®æ”¹ï¼šç›®æ ‡èˆªç‚¹ä¸å†ä½¿ç”¨åœæ­¢ç‚¹ï¼Œè€Œæ˜¯ç¬¬0ä¸ªèˆªç‚¹
 
     // initialise yaw
     auto_yaw.set_mode_to_default(false);
@@ -63,10 +63,10 @@ void Copter::ModeDrawStar::pos_control_start()
 // should be called at 100hz or more
 void Copter::ModeDrawStar::run()
 {
-    if(wp_nav->reached_wp_destination()){                       //Èç¹ûÒÑ¾­µ½´ïÆÚÍûº½µã
+    if(wp_nav->reached_wp_destination()){                       //äºŒå¼€æ·»åŠ ï¼šå¦‚æžœåˆ°è¾¾äº†æœŸæœ›èˆªç‚¹
         if(path_num < 6){
             path_num ++;
-            wp_nav->set_wp_destination(path[path_num], false);  //½«Ä¿±êº½µãÉèÖÃÎªÏÂÒ»¸öº½µã
+            wp_nav->set_wp_destination(path[path_num], false);  //äºŒå¼€æ·»åŠ ï¼šå°†ç›®æ ‡èˆªç‚¹è®¾ç½®ä¸ºä¸‹ä¸€ä¸ªèˆªç‚¹
         }
     }
     pos_control_run();

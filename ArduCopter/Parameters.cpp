@@ -986,6 +986,8 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     AP_SUBGROUPINFO(follow, "FOLL", 27, ParametersG2, AP_Follow),
 #endif
 
+    AP_GROUPINFO("STAR_R_CM", 28, ParametersG2, star_radius_cm, 1000),  //二开添加：定义五角星航线半径在地面站里的参数名称
+                                                                        //默认值1000cm
     AP_GROUPEND
 };
 

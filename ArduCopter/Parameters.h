@@ -587,6 +587,7 @@ public:
     AP_Follow follow;
 #endif
 
+    AP_Float star_radius_cm;    //二开添加：五角星航线半径
 };
 
 extern const AP_Param::Info        var_info[];
