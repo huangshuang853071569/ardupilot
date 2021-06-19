@@ -13,7 +13,7 @@ bool Copter::ModeDrawStar::init(bool ignore_checks)
         auto_yaw.set_mode_to_default(false);
 
         path_num = 0;               //二开添加：当前航点号清0
-        generate_path();            //二开添加：生成五角星航点
+        generate_path();            //二开添加：生成航点
 
         // start in position control mode
         pos_control_start();
@@ -23,19 +23,24 @@ bool Copter::ModeDrawStar::init(bool ignore_checks)
     }
 }
 
-//二开添加：生成五角星航线的航点
+//二开添加：生成巡逻航线的航点
 //航线坐标定义：X轴正向指向正北，Y轴正向指向正东，Z轴正向垂直向下
 void Copter::ModeDrawStar::generate_path()
 {
-    float radius_cm = g2.star_radius_cm;     //二开添加：五角星航线外接圆半径，在参数表中定义，参数名称STAR_R_CM
+    float scan_long_cm = 1000;              //扫描长度
+    float scan_width_cm = 500;              //扫描宽度
+    int i = 1;
 
-    wp_nav->get_wp_stopping_point(path[0]);                 //将当前的位置坐标存放在第0航点，作为五角星中心
-    path[1] = path[0] + Vector3f(1.0f, 0, 0) * radius_cm;   //第1号航点=第0号航点+偏移值。vector3f(1.0f,0,0)为单位向量
-    path[2] = path[0] + Vector3f(-cosf(radians(36.0f)), -sinf(radians(36.0f)), 0) * radius_cm;  //radians()函数为角度值转弧度制
-    path[3] = path[0] + Vector3f(sinf(radians(18.0f)), cosf(radians(18.0f)), 0) * radius_cm;
-    path[4] = path[0] + Vector3f(sinf(radians(18.0f)), -cosf(radians(18.0f)), 0) * radius_cm;
-    path[5] = path[0] + Vector3f(-cosf(radians(36.0f)), sinf(radians(36.0f)), 0) * radius_cm;
-    path[6] = path[1];                                      //最后回到第1个航点
+    wp_nav->get_wp_stopping_point(path[0]);                 //将当前的位置坐标存放在第0航点，作为起始点
+
+    //生成航点
+    for(i = 1; i <= scan_times; i++)
+    {
+        path[(i-1)*4 + 0] =  path[0] + Vector3f(0,              (i-1)*scan_width_cm*2,                    0);
+        path[(i-1)*4 + 1] =  path[0] + Vector3f(scan_long_cm,   (i-1)*scan_width_cm*2,                    0);
+        path[(i-1)*4 + 2] =  path[0] + Vector3f(scan_long_cm,   (i-1)*scan_width_cm*2 + scan_width_cm,    0);
+        path[(i-1)*4 + 3] =  path[0] + Vector3f(0,              (i-1)*scan_width_cm*2 + scan_width_cm,    0);
+    }
 
 }
 
@@ -64,7 +69,7 @@ void Copter::ModeDrawStar::pos_control_start()
 void Copter::ModeDrawStar::run()
 {
     if(wp_nav->reached_wp_destination()){                       //二开添加：如果到达了期望航点
-        if(path_num < 6){
+        if(path_num < (scan_times*4-1)){                        //二开添加：如果还没到最后一个航点
             path_num ++;
             wp_nav->set_wp_destination(path[path_num], false);  //二开添加：将目标航点设置为下一个航点
         }

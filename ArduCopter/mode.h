@@ -857,10 +857,11 @@ protected:
 
 private:
 
-    Vector3f path[10];          //¶ş¿ªÌí¼Ó£ºÓÃÓÚ±£´æÎå½ÇĞÇº½µã£¬ÕâÀï¶à¶¨ÒåÁË¼¸¸ö£¬ÒÔ±¸À©Õ¹ĞèÒª
-    int path_num;               //¶ø¿ªÌí¼Ó£ºÓÃÓÚ±£´æµ±Ç°º½µã
+    Vector3f path[100];          //äºŒå¼€æ·»åŠ ï¼šèˆªç‚¹
+    int path_num;               //äºŒå¼€æ·»åŠ ï¼šèˆªç‚¹å·
+    int scan_times = 5;         //æ‰«ææ¬¡æ•°,æœ€å°ä¸º1
 
-    void generate_path();       //¶ş¿ªÌí¼Ó£ºÎå½ÇĞÇº½µãÉú³Éº¯Êı
+    void generate_path();       //äºŒå¼€æ·»åŠ ï¼šèˆªçº¿ç”Ÿæˆå‡½æ•°
     void pos_control_start();
     void pos_control_run();
     void vel_control_run();
