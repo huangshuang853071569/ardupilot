@@ -6,7 +6,7 @@
 
 
 // guided_init - initialise guided controller
-bool Copter::ModeDrawStar::init(bool ignore_checks)
+bool Copter::ModeScanWP::init(bool ignore_checks)
 {
     if (copter.position_ok() || ignore_checks) {
         // initialise yaw
@@ -25,16 +25,16 @@ bool Copter::ModeDrawStar::init(bool ignore_checks)
 
 //二开添加：生成巡逻航线的航点
 //航线坐标定义：X轴正向指向正北，Y轴正向指向正东，Z轴正向垂直向下
-void Copter::ModeDrawStar::generate_path()
+void Copter::ModeScanWP::generate_path()
 {
-    float scan_long_cm = 1000;              //扫描长度
-    float scan_width_cm = 500;              //扫描宽度
+    float scan_long_cm = g2.scan_long_cm;                   //扫描长度
+    float scan_width_cm = g2.scan_width_cm;                 //扫描宽度
     int i = 1;
 
     wp_nav->get_wp_stopping_point(path[0]);                 //将当前的位置坐标存放在第0航点，作为起始点
 
     //生成航点
-    for(i = 1; i <= scan_times; i++)
+    for(i = 1; i <= g2.scan_wp_times; i++)
     {
         path[(i-1)*4 + 0] =  path[0] + Vector3f(0,              (i-1)*scan_width_cm*2,                    0);
         path[(i-1)*4 + 1] =  path[0] + Vector3f(scan_long_cm,   (i-1)*scan_width_cm*2,                    0);
@@ -46,7 +46,7 @@ void Copter::ModeDrawStar::generate_path()
 
 
 // initialise guided mode's position controller
-void Copter::ModeDrawStar::pos_control_start()
+void Copter::ModeScanWP::pos_control_start()
 {
     // set to position control mode
     //guided_mode = Guided_WP;
@@ -66,10 +66,10 @@ void Copter::ModeDrawStar::pos_control_start()
 
 // guided_run - runs the guided controller
 // should be called at 100hz or more
-void Copter::ModeDrawStar::run()
+void Copter::ModeScanWP::run()
 {
     if(wp_nav->reached_wp_destination()){                       //二开添加：如果到达了期望航点
-        if(path_num < (scan_times*4-1)){                        //二开添加：如果还没到最后一个航点
+        if(path_num < (g2.scan_wp_times*4-1)){                  //二开添加：如果还没到跑完所有航点
             path_num ++;
             wp_nav->set_wp_destination(path[path_num], false);  //二开添加：将目标航点设置为下一个航点
         }
@@ -80,7 +80,7 @@ void Copter::ModeDrawStar::run()
 
 // guided_pos_control_run - runs the guided position controller
 // called from guided_run
-void Copter::ModeDrawStar::pos_control_run()
+void Copter::ModeScanWP::pos_control_run()
 {
     // if not auto armed or motors not enabled set throttle to zero and exit immediately
     if (!motors->armed() || !ap.auto_armed || !motors->get_interlock() || ap.land_complete) {

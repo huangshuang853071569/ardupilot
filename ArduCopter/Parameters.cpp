@@ -988,6 +988,13 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
 
     AP_GROUPINFO("STAR_R_CM", 28, ParametersG2, star_radius_cm, 1000),  //二开添加：定义五角星航线半径在地面站里的参数名称
                                                                         //默认值1000cm
+
+    AP_GROUPINFO("SCAN_L_CM", 29, ParametersG2, scan_long_cm, 2000),    //二开添加：定义扫描航线长度在地面站里的参数名称
+
+    AP_GROUPINFO("SCAN_W_CM", 30, ParametersG2, scan_width_cm, 200),    //二开添加：定义扫描航线宽度在地面站里的参数名称
+
+    AP_GROUPINFO("SCAN_TIMES", 31, ParametersG2, scan_wp_times, 5),        //二开添加：定义扫描航线次数在地面站里的参数名称
+
     AP_GROUPEND
 };
 

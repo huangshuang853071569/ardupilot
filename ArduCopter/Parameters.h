@@ -588,6 +588,10 @@ public:
 #endif
 
     AP_Float star_radius_cm;    //二开添加：五角星航线半径
+
+    AP_Float scan_long_cm;      //二开添加：扫描航线长度
+    AP_Float scan_width_cm;     //二开添加：扫描航线宽度
+    AP_Float scan_wp_times;        //二开添加：扫描次数
 };
 
 extern const AP_Param::Info        var_info[];

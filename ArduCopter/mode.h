@@ -834,7 +834,7 @@ private:
 
 };
 
-class ModeDrawStar : public Mode {
+class ModeScanWP : public Mode {
 
 public:
     // inherit constructor
@@ -852,16 +852,15 @@ public:
 
 protected:
 
-    const char *name() const override { return "DRAWSTAR"; }
-    const char *name4() const override { return "DRAWSTAR"; }
+    const char *name() const override { return "SCANWP"; }
+    const char *name4() const override { return "SCANWP"; }
 
 private:
 
-    Vector3f path[100];          //二开添加：航点
-    int path_num;               //二开添加：航点号
-    int scan_times = 5;         //扫描次数,最小为1
+    Vector3f path[100];                     //二开添加：航点
+    int path_num;                           //二开添加：航点号
 
-    void generate_path();       //二开添加：航线生成函数
+    void generate_path();                   //二开添加：航线生成函数
     void pos_control_start();
     void pos_control_run();
     void vel_control_run();

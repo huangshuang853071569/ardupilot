@@ -976,7 +976,7 @@ private:
 #if MODE_GUIDED_ENABLED == ENABLED
     ModeGuided mode_guided;
 
-    ModeDrawStar mode_DrawStar;             //¶ş¿ªÌí¼Ó
+    ModeScanWP mode_ScanWP;             //äºŒå¼€æ·»åŠ ï¼šæ‰«æèˆªçº¿æ¨¡å¼
 
 #endif
     ModeLand mode_land;
